@@ -239,7 +239,7 @@ export default {
         },
         {
           name: "Drmundo",
-          main: "mid",
+          main: "top",
           top: 50.72,
           jg: 50.02,
           mid: 52.14,
@@ -282,6 +282,12 @@ export default {
   --color-green-100: #13e270;
   --color-green-200: #0faa55;
   --color-green-300: #0c8040;
+
+  --color-dark-league: #1d1911be;
+  --color-league-50: #e2ca99;
+  --color-league-100: #c8aa6e;
+  --color-league-200: #c79943;
+  --color-league-300: #c59327;
 }
 
 * {

@@ -107,7 +107,7 @@ export default {
 
 .halfImage {
   width: 50vw;
-  transition: 1s ease-in;
+  transition: 1s ease;
 }
 .hideAnimation {
   animation-name: hide;

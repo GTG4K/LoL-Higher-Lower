@@ -1,7 +1,10 @@
 <template>
   <button :class="buttonClass" :type="type" @click="redirectTo">
     <slot></slot>
-    <i class="fas fa-caret-right"></i>
+    <i v-if="!direction" class="fas fa-caret-right"></i>
+    <i v-else-if="direction === 'up'" class="fas fa-caret-up"></i>
+    <i v-else-if="direction === 'down'" class="fas fa-caret-down"></i>
+    <i v-else-if="direction === 'left'" class="fas fa-caret-left"></i>
   </button>
 </template>
 
@@ -9,6 +12,8 @@
 export default {
   props: {
     size: String,
+    theme: String,
+    direction: String,
     type: String,
     redirect: String,
   },
@@ -17,6 +22,7 @@ export default {
       return {
         tiny: this.size === "tiny",
         small: this.size === "small",
+        league: this.theme === "league",
       };
     },
   },
@@ -49,6 +55,20 @@ button {
   border: solid 3px;
   border-radius: 8px;
   border-color: var(--color-green-50);
+}
+
+.league {
+  background: var(--color-league-100);
+  border-color: var(--color-league-50);
+  color: var(--color-league-dark);
+}
+
+.league:hover {
+  background: var(--color-league-200);
+}
+
+.league:active {
+  background: var(--color-league-300);
 }
 
 button:hover {
