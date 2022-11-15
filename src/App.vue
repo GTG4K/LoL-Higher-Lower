@@ -253,12 +253,10 @@ export default {
     const randomChapmIndex = Math.floor(Math.random() * this.champs.length);
     const selectedChamp = this.champs[randomChapmIndex];
     this.champ.push(selectedChamp);
-    getDownloadURL(ref(storage, `images/${selectedChamp.name}.jpg`)).then(
-      (url) => {
-        this.champ.push(url);
-        this.dataLoaded = true;
-      }
-    );
+    getDownloadURL(ref(storage, `images/${selectedChamp.name}.jpg`)).then((url) => {
+      this.champ.push(url);
+      this.dataLoaded = true;
+    });
   },
   provide() {
     return {
@@ -282,6 +280,9 @@ export default {
   --color-green-100: #13e270;
   --color-green-200: #0faa55;
   --color-green-300: #0c8040;
+
+  --color-pass: var(--color-green-100);
+  --color-fail: #d82222;
 
   --color-dark-league: #1d1911be;
   --color-league-50: #e2ca99;
