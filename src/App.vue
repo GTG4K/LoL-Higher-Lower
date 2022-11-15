@@ -265,7 +265,7 @@ export default {
       this.score = score;
       setTimeout(() => {
         this.$router.push(`/${type}/over`);
-      }, 5500);
+      }, 1500);
     },
   },
   provide() {
