@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import HomePage from "./components/Pages/HomePage.vue";
 import ClassicPage from "./components/Pages/ClassicPage.vue";
+import GameoverPage from "./components/Pages/GameoverPage.vue";
 
 import BaseButton from "./components/UI/BaseButton.vue";
 import BaseInfobox from "./components/UI/BaseInfobox.vue";
@@ -22,6 +23,11 @@ const router = createRouter({
     {
       path: "/classic",
       component: ClassicPage,
+    },
+    {
+      path: "/:type/Over",
+      component: GameoverPage,
+      props: true,
     },
   ],
 });

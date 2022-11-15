@@ -1,5 +1,5 @@
 <template>
-  <router-view v-if="dataLoaded" />
+  <router-view v-if="dataLoaded" @gameOver="gameOver" :champ="champ" :score="score" />
 </template>
 
 <script>
@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       champ: [],
+      score: 0,
       dataLoaded: false,
       champs: [
         {
@@ -257,6 +258,15 @@ export default {
       this.champ.push(url);
       this.dataLoaded = true;
     });
+  },
+  methods: {
+    gameOver(champ, type, score) {
+      this.champ = champ;
+      this.score = score;
+      setTimeout(() => {
+        this.$router.push(`/${type}/over`);
+      }, 5500);
+    },
   },
   provide() {
     return {

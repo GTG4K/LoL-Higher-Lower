@@ -40,6 +40,7 @@ export default {
   border-radius: 8px;
   color: white;
   font-weight: 700;
+  width: max-content;
 }
 .description {
   font-size: 17px;

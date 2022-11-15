@@ -1,8 +1,8 @@
 <template>
-  <main :class="rotate">
-    <div class="champ-details">
+  <main :class="mainClass">
+    <div class="champ-details cd1">
       <img class="champ-1" :src="champ1[1]" alt="" />
-      <div class="details">
+      <div class="details" :class="show">
         <div class="role-name-wr">
           <div class="role-name">
             <img v-if="champ1[0].main === 'top'" src="../../assets/icons/topi.png" alt="" />
@@ -16,9 +16,9 @@
         </div>
       </div>
     </div>
-    <div v-show="initialDataLoaded" class="champ-details">
+    <div class="champ-details cd2" v-show="initialDataLoaded">
       <img class="champ-2" :src="champ2[1]" alt="" @load="onLoad" />
-      <div class="details">
+      <div class="details" :class="show">
         <div class="role-name-wr">
           <div class="role-name">
             <img v-if="champ2[0].main === 'top'" src="../../assets/icons/topi.png" alt="" />
@@ -41,7 +41,7 @@
     <div class="champ-details">
       <img class="champ-2" :src="champ3[1]" alt="" />
     </div>
-    <div class="score">
+    <div class="score" :class="show">
       <h1>score: {{ score }}</h1>
     </div>
   </main>
@@ -101,7 +101,7 @@ export default {
       }
     },
     colorCorrect() {
-      if (this.colorCorrect === "pass" || this.colorCorrect === "fail") {
+      if (this.colorCorrect === "pass") {
         this.next = true;
         setTimeout(() => {
           this.champ1 = this.champ2;
@@ -110,7 +110,16 @@ export default {
           this.guess = false;
           this.colorCorrect = null;
         }, 1500);
-        this.champ3 = this.generateRandomChamp([this.champ1[0].name, this.champ1[0].name]);
+      } else if (this.colorCorrect === "fail") {
+        setTimeout(() => {
+          this.gameOver = true;
+
+          //END GAME FROM HERE
+          this.$emit("gameOver", this.champ2, "classic", this.score);
+        }, 1000);
+      } else {
+        this.champ3 = [];
+        this.champ3 = this.generateRandomChamp([this.champ1[0].name, this.champ2[0].name]);
         getDownloadURL(ref(storage, `images/${this.champ3[0].name}.jpg`)).then((url) => {
           this.champ3.push(url);
           this.initialDataLoaded = true;
@@ -147,71 +156,30 @@ export default {
       newChamp.push(selectedChamp);
       return newChamp;
     },
-    onLoad(e) {
-      e.target.classList.toggle("showAnimation");
-      e.target.style.opacity = 1;
-    },
+    // onLoad(e) {
+    //   e.target.classList.toggle("showAnimation");
+    //   e.target.style.opacity = 1;
+    // },
     onHigher() {
       //If Guess is correct
       if (this.champ1[0][this.champ1[0].main] < this.champ2[0][this.champ2[0].main]) {
         this.score++;
         this.correct = true;
         this.guess = true;
-
-        // this.champ1 = [];
-        // this.champ1.push(this.champ2[0]);
-        // this.champ1.push(this.champ2[1]);
-
-        // this.champ2 = [];
-        // let randomChapmIndex = Math.floor(Math.random() * this.champs.length);
-        // let selectedChamp = this.champs[randomChapmIndex];
-        // while (this.champs[randomChapmIndex].name === this.champ1[0].name) {
-        //   randomChapmIndex = Math.floor(Math.random() * this.champs.length);
-        //   selectedChamp = this.champs[randomChapmIndex];
-        // }
-        // this.champ2 = [];
-        // this.champ2.push(selectedChamp);
-        // getDownloadURL(ref(storage, `images/${selectedChamp.name}.jpg`)).then(
-        //   (url) => {
-        //     this.champ2.push(url);
-        //     this.initialDataLoaded = true;
-        //   }
-        // );
+      } else {
+        this.correct = false;
+        this.guess = true;
       }
-      // else {
-      //   this.gameOver = true;
-      //   this.$router.push("/summary");
-      // }
     },
     onLower() {
       if (this.champ1[0][this.champ1[0].main] > this.champ2[0][this.champ2[0].main]) {
         this.score++;
         this.guess = true;
         this.correct = true;
-        // this.champ1 = [];
-        // this.champ1.push(this.champ2[0]);
-        // this.champ1.push(this.champ2[1]);
-
-        // this.champ2 = [];
-        // let randomChapmIndex = Math.floor(Math.random() * this.champs.length);
-        // let selectedChamp = this.champs[randomChapmIndex];
-        // while (this.champs[randomChapmIndex].name === this.champ1[0].name) {
-        //   randomChapmIndex = Math.floor(Math.random() * this.champs.length);
-        //   selectedChamp = this.champs[randomChapmIndex];
-        // }
-        // this.champ2 = [];
-        // this.champ2.push(selectedChamp);
-        // getDownloadURL(ref(storage, `images/${selectedChamp.name}.jpg`)).then(
-        //   (url) => {
-        //     this.champ2.push(url);
-        //     this.initialDataLoaded = true;
-        //   }
-        // );
+      } else {
+        this.correct = false;
+        this.guess = true;
       }
-      // else {
-      //   this.gameOver = true;
-      //   this.$router.push("/summary");
-      // }
     },
   },
   computed: {
@@ -220,15 +188,21 @@ export default {
         hidden: !this.initialDataLoaded,
       };
     },
-    rotate() {
+    mainClass() {
       return {
         nextAnimation: this.next,
+        fail: this.gameOver,
       };
     },
     passCheck() {
       return {
         green: this.colorCorrect === "pass",
         red: this.colorCorrect === "fail",
+      };
+    },
+    show() {
+      return {
+        hidden: this.gameOver,
       };
     },
   },
@@ -241,14 +215,23 @@ export default {
 </script>
 
 <style scoped>
+* {
+  transition: 1s;
+}
 main {
   position: fixed;
-  display: grid;
-  grid-template-columns: 50vw 50vw 50vw;
+  display: flex;
   overflow: hidden;
+}
+main.fail .champ-details.cd1 {
+  width: 0vw;
+}
+main.fail .champ-details.cd2 {
+  width: 100vw;
 }
 .champ-details {
   height: 100vh;
+  width: 50vw;
   position: relative;
 }
 .details {
