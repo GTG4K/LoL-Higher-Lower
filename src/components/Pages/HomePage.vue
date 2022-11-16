@@ -1,10 +1,6 @@
 <template>
   <main>
-    <div
-      v-show="imageLoaded"
-      class="background-image"
-      :class="backgroundImageClass"
-    ></div>
+    <div v-show="imageLoaded" class="background-image" :class="backgroundImageClass"></div>
     <div v-show="showMenu" class="page-content" :class="pageContentClass">
       <img src="../../assets/logo/logo.png" alt="" />
       <div class="gamemodes">
@@ -13,9 +9,25 @@
             <p>Guess the champs based on their most played roles</p>
           </template>
           <template v-slot:action>
-            <base-button type="button" size="small" @click="playClassic"
-              >Play</base-button
-            >
+            <base-button type="button" size="small" @click="playClassic" direction="right">Play</base-button>
+            <p class="filter_text">filter by Role:</p>
+            <div class="filters">
+              <base-button type="button" @click="playClassic" theme="leagueDark"
+                ><img src="../../assets/icons/topi.png" alt=""
+              /></base-button>
+              <base-button type="button" @click="playClassic" theme="leagueDark"
+                ><img src="../../assets/icons/jgi.png" alt=""
+              /></base-button>
+              <base-button type="button" @click="playClassic" theme="leagueDark"
+                ><img src="../../assets/icons/midi.png" alt=""
+              /></base-button>
+              <base-button type="button" @click="playClassic" theme="leagueDark"
+                ><img src="../../assets/icons/boti.png" alt=""
+              /></base-button>
+              <base-button type="button" @click="playClassic" theme="leagueDark"
+                ><img src="../../assets/icons/supi.png" alt=""
+              /></base-button>
+            </div>
           </template>
         </base-infobox>
       </div>
@@ -71,6 +83,11 @@ export default {
 </script>
 
 <style scoped>
+main {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 .background-image {
   position: fixed;
   z-index: -1;
@@ -82,7 +99,6 @@ export default {
   height: 100vh;
   opacity: 1;
   box-shadow: inset 0 0 300px rgb(0, 0, 0);
-
   filter: brightness(0.6);
 
   background-position: center;
@@ -103,6 +119,17 @@ export default {
 
   animation-name: show;
   animation-duration: 1.5s;
+}
+
+.filters {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.filter_text {
+  margin-top: 20px;
 }
 
 .halfImage {

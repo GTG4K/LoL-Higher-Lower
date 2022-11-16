@@ -11,7 +11,9 @@
             <p>Never FF 15, Try again.</p>
           </template>
           <template v-slot:action>
-            <base-button type="button" size="small" @click="playClassic">Stay on the grind</base-button>
+            <base-button type="button" size="small" @click="playClassic" direction="right"
+              >Stay on the grind</base-button
+            >
           </template>
         </base-infobox>
       </div>

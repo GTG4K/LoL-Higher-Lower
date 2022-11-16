@@ -27,7 +27,7 @@ export default {
   text-align: center;
   border-color: var(--color-green-100);
   color: white;
-  width: 300px;
+  width: 500px;
 }
 .title {
   position: absolute;
